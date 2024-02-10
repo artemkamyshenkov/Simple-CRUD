@@ -11,6 +11,7 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
 
   try {
     const users = await getDataBase();
+
     const jsonData: Omit<User, 'id'> = await new Promise((resolve, reject) => {
       req.on('data', chunk => {
         data += chunk;

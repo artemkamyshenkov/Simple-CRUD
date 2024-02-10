@@ -1,10 +1,7 @@
-import fs from 'fs/promises';
 import { type IncomingMessage, type ServerResponse } from 'http';
-import path from 'path';
-import { type User } from '../utils/types';
 import { sendResponse } from '../utils/sendResponse';
-
-const filePath = path.join(__dirname, '..', 'db', 'users.json');
+import { getUrlId } from '../utils/getUrlId';
+import { getDataBase } from '../utils/getDataBase';
 
 export const getUserById = async (
   req: IncomingMessage,
@@ -12,12 +9,9 @@ export const getUserById = async (
 ) => {
   try {
     const url = req.url ?? '';
-    const match = url.match(
-      /^\/api\/users\/([0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12})$/,
-    );
-    const id = match?.[1];
-    const data = await fs.readFile(filePath, 'utf-8');
-    const { users }: { users: User[] } = JSON.parse(data);
+    const id = getUrlId(url);
+
+    const users = await getDataBase();
 
     if (id) {
       const user = users?.find(user => String(user?.id) === String(id));

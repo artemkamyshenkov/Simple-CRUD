@@ -1,17 +1,12 @@
-import fs from 'fs/promises';
 import { type IncomingMessage, type ServerResponse } from 'http';
-import path from 'path';
-
-const filePath = path.join(__dirname, '..', 'db', 'users.json');
+import { getDataBase } from '../utils/getDataBase';
+import { sendResponse } from '../utils/sendResponse';
 
 export const getUsers = async (req: IncomingMessage, res: ServerResponse) => {
   try {
-    const data = await fs.readFile(filePath, 'utf-8');
-    const { users } = JSON.parse(data);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(users));
+    const users = await getDataBase();
+    sendResponse(res, 200, users ?? []);
   } catch (error) {
-    res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+    sendResponse(res, 500, 'Internal Server Error');
   }
 };
