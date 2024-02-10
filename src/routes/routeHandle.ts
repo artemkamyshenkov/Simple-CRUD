@@ -1,6 +1,7 @@
 import { type IncomingMessage, type ServerResponse } from 'http';
 import { getUsers } from './getUsers.ts';
 import { getUserById } from './getUserById.ts';
+import { createUser } from './createUser.ts';
 
 type RouteMethod = Record<
   string,
@@ -11,6 +12,7 @@ type Routes = Record<string, RouteMethod>;
 const routes: Routes = {
   '/api/users': {
     GET: getUsers,
+    POST: createUser,
   },
   '^/api/users/([0-9a-zA-Z-]+)$': {
     GET: getUserById,
