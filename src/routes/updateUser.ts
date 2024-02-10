@@ -13,7 +13,6 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
     const id = getUrlId(url);
 
     const users = await getDataBase();
-    console.log(users);
     const jsonData: Omit<User, 'id'> = await new Promise((resolve, reject) => {
       req.on('data', chunk => {
         data += chunk;

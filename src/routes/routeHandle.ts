@@ -3,6 +3,7 @@ import { getUsers } from './getUsers.ts';
 import { getUserById } from './getUserById.ts';
 import { createUser } from './createUser.ts';
 import { updateUser } from './updateUser.ts';
+import { deleteUser } from './deleteUser.ts';
 
 type RouteMethod = Record<
   string,
@@ -18,6 +19,7 @@ const routes: Routes = {
   '^/api/users/([0-9a-zA-Z-]+)$': {
     GET: getUserById,
     PUT: updateUser,
+    DELETE: deleteUser,
   },
 };
 
